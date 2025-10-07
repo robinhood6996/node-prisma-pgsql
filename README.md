@@ -12,29 +12,33 @@ A GraphQL API server built with Apollo Server, Prisma, and TypeScript.
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - PostgreSQL database
 - npm or yarn
 
 ## Setup
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Set up your environment variables in `.env`:
+
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
 JWT_SECRET="your-strong-secret-key"
 ```
 
 3. Generate Prisma client:
+
 ```bash
 npx prisma generate
 ```
 
 4. Run database migrations:
+
 ```bash
 npx prisma migrate dev
 ```
@@ -53,6 +57,7 @@ npx prisma migrate dev
 ### Development Workflow
 
 1. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -62,11 +67,13 @@ npm run dev
 ### Production Build
 
 1. Build the project:
+
 ```bash
 npm run build
 ```
 
 2. Start the production server:
+
 ```bash
 npm run start
 ```
@@ -85,6 +92,7 @@ npm run start
 ### Authentication
 
 Include the JWT token in the Authorization header:
+
 ```
 Authorization: Bearer your-jwt-token
 ```
@@ -106,6 +114,7 @@ generated/prisma/       # Generated Prisma client
 ## TypeScript Configuration
 
 The project uses strict TypeScript configuration with:
+
 - Strong type checking enabled
 - Source maps for debugging
 - Declaration files generation

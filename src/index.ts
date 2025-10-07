@@ -60,14 +60,21 @@ const typeDefs = `#graphql
 
 const resolvers = {
   Query: {
-    me: async (_: unknown, __: unknown, ctx: Context): Promise<UserPayload | null> => {
+    me: async (
+      _: unknown,
+      __: unknown,
+      ctx: Context
+    ): Promise<UserPayload | null> => {
       if (!ctx.user) throw new Error("Not authenticated");
       return prisma.user.findUnique({ where: { id: ctx.user.id } });
     },
   },
 
   Mutation: {
-    signup: async (_: unknown, { email, password, name }: SignupArgs): Promise<AuthPayload> => {
+    signup: async (
+      _: unknown,
+      { email, password, name }: SignupArgs
+    ): Promise<AuthPayload> => {
       const hashed = await argon2.hash(password);
       const user = await prisma.user.create({
         data: { email, password: hashed, name },
@@ -78,7 +85,10 @@ const resolvers = {
       return { accessToken };
     },
 
-    login: async (_: unknown, { email, password }: LoginArgs): Promise<AuthPayload> => {
+    login: async (
+      _: unknown,
+      { email, password }: LoginArgs
+    ): Promise<AuthPayload> => {
       const user = await prisma.user.findUnique({ where: { email } });
       if (!user) throw new Error("Invalid credentials");
       const valid = await argon2.verify(user.password, password);
@@ -107,7 +117,11 @@ const server = new ApolloServer({
       if (!token) return { user: null };
       try {
         const payload = jwt.verify(token, JWT_SECRET);
-        if (typeof payload === "object" && payload !== null && "id" in payload) {
+        if (
+          typeof payload === "object" &&
+          payload !== null &&
+          "id" in payload
+        ) {
           const jwtPayload = payload as jwt.JwtPayload & { id: number };
           return { user: { id: jwtPayload.id } };
         }
