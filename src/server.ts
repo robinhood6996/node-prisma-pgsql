@@ -1,14 +1,17 @@
-// src/index.ts
+// src/server.ts
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { typeDefs } from "./graphql/typeDefs";
-import { resolvers } from "./graphql/resolvers";
-import { createContext } from "./middleware/auth";
 import { connectDatabase, disconnectDatabase } from "./config/database";
+import { createContext } from "./middleware/auth";
 import { PORT } from "./config/constants";
 
+// Choose which API to use
+import { typeDefs, resolvers } from "./api"; // New API structure
+// import { typeDefs } from "./graphql/typeDefs"; // Original structure
+// import { resolvers } from "./graphql/resolvers"; // Original structure
+
 /**
- * Initialize and start the GraphQL server
+ * Initialize and start the GraphQL server with new API structure
  */
 async function startServer(): Promise<void> {
   try {
@@ -19,6 +22,14 @@ async function startServer(): Promise<void> {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
+      formatError: (formattedError, error) => {
+        console.error('GraphQL Error:', error);
+        return {
+          message: formattedError.message,
+          code: formattedError.extensions?.code,
+          path: formattedError.path || [],
+        };
+      },
     });
 
     // Start server
@@ -28,6 +39,7 @@ async function startServer(): Promise<void> {
     });
 
     console.log(`🚀 Server ready at ${url}`);
+    console.log(`📁 Using new API structure from /src/api/`);
 
     // Handle graceful shutdown
     process.on("SIGINT", async () => {
