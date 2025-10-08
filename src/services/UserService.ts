@@ -16,7 +16,7 @@ export class UserService {
   static async getUserByEmail(email: string): Promise<UserPayload | null> {
     const user = await UserModel.findByEmail(email);
     if (!user) return null;
-    
+
     // Convert User to UserPayload (exclude password)
     return {
       id: user.id,

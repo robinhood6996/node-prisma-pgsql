@@ -13,18 +13,33 @@ export class ValidationMiddleware {
   /**
    * Validate password strength
    */
-  static validatePassword(password: string): { valid: boolean; message?: string } {
+  static validatePassword(password: string): {
+    valid: boolean;
+    message?: string;
+  } {
     if (password.length < 8) {
-      return { valid: false, message: "Password must be at least 8 characters long" };
+      return {
+        valid: false,
+        message: "Password must be at least 8 characters long",
+      };
     }
     if (!/(?=.*[a-z])/.test(password)) {
-      return { valid: false, message: "Password must contain at least one lowercase letter" };
+      return {
+        valid: false,
+        message: "Password must contain at least one lowercase letter",
+      };
     }
     if (!/(?=.*[A-Z])/.test(password)) {
-      return { valid: false, message: "Password must contain at least one uppercase letter" };
+      return {
+        valid: false,
+        message: "Password must contain at least one uppercase letter",
+      };
     }
     if (!/(?=.*\d)/.test(password)) {
-      return { valid: false, message: "Password must contain at least one number" };
+      return {
+        valid: false,
+        message: "Password must contain at least one number",
+      };
     }
     return { valid: true };
   }
@@ -41,7 +56,11 @@ export class ValidationMiddleware {
   /**
    * Validate signup input
    */
-  static validateSignupInput(email: string, password: string, name?: string): void {
+  static validateSignupInput(
+    email: string,
+    password: string,
+    name?: string
+  ): void {
     if (!email || !password) {
       throw new Error("Email and password are required");
     }

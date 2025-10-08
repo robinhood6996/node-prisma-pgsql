@@ -1,7 +1,12 @@
 // src/api/controllers/AuthApiController.ts
 import { AuthService } from "../../services/AuthService";
 import { UserService } from "../../services/UserService";
-import { SignupArgs, LoginArgs, EnhancedAuthPayload, Context } from "../../types";
+import {
+  SignupArgs,
+  LoginArgs,
+  EnhancedAuthPayload,
+  Context,
+} from "../../types";
 import { ValidationMiddleware, ErrorHandler } from "../middleware";
 
 export class AuthApiController {
@@ -15,11 +20,15 @@ export class AuthApiController {
   ): Promise<EnhancedAuthPayload> {
     try {
       // Validate input
-      ValidationMiddleware.validateSignupInput(args.email, args.password, args.name);
+      ValidationMiddleware.validateSignupInput(
+        args.email,
+        args.password,
+        args.name
+      );
 
       // Create user
       const result = await AuthService.signup(args);
-      
+
       // Get user details
       const user = await UserService.getUserByEmail(args.email);
       if (!user) {
@@ -49,7 +58,7 @@ export class AuthApiController {
 
       // Authenticate user
       const result = await AuthService.login(args);
-      
+
       // Get user details
       const user = await UserService.getUserByEmail(args.email);
       if (!user) {
@@ -78,7 +87,7 @@ export class AuthApiController {
 
       // Generate new token
       const accessToken = AuthService.generateToken(ctx.user!.id);
-      
+
       // Get user details
       const user = await UserService.getUserProfile(ctx.user!.id);
       if (!user) {

@@ -23,7 +23,7 @@ async function startServer(): Promise<void> {
       typeDefs,
       resolvers,
       formatError: (formattedError, error) => {
-        console.error('GraphQL Error:', error);
+        console.error("GraphQL Error:", error);
         return {
           message: formattedError.message,
           code: formattedError.extensions?.code,

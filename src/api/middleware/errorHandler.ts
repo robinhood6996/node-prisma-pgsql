@@ -57,11 +57,18 @@ export class ErrorHandler {
   static handleError(error: Error): never {
     const message = error.message.toLowerCase();
 
-    if (message.includes("not authenticated") || message.includes("unauthorized")) {
+    if (
+      message.includes("not authenticated") ||
+      message.includes("unauthorized")
+    ) {
       this.handleAuthError(error);
     }
 
-    if (message.includes("validation") || message.includes("invalid") || message.includes("required")) {
+    if (
+      message.includes("validation") ||
+      message.includes("invalid") ||
+      message.includes("required")
+    ) {
       this.handleValidationError(error);
     }
 
